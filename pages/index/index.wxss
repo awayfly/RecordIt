@@ -1,0 +1,83 @@
+/* pages/index/index.wxss */
+
+.cointainer {
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.page-body {
+  width: 100%;
+  -webkit-text-fill-color: #878787;
+}
+
+.reset {
+  width: 60px;
+  height: 30px;
+  font-size: 12px;
+  background-color: f8f8f8;
+  margin-bottom: 20px;
+}
+
+.sport-data {
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  font-size: 30px;
+}
+
+.sport-speed{
+  display: flex;
+  flex-direction: column;
+}
+
+.sport-time{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-text {
+text-align: center;
+  font-size: 16px;
+}
+
+.speed-num {
+  text-align: center;
+}
+
+.time-num{
+  text-align: center;
+}
+
+.center-line {
+  margin: 40px;
+  color: #f0f0f0;
+}
+
+.produce-data {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+  height: 40%;
+}
+
+.accuracy-data {
+  flex-direction: column;
+  margin-right: 10px;
+  /* background-color: #7dcdff; */
+}
+
+.image-data {
+  margin-bottom: 10px;
+}
+
+.text-data {
+  margin-bottom: 10px;
+}
+
+.images {
+  width: 50px;
+  height: 50px;
+}

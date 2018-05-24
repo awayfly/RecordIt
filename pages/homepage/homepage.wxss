@@ -2,17 +2,24 @@
 .open-data{
   width: 128rpx;
   height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
+  /* margin: 20rpx; */
+  border-radius: 64rpx;
 }
-.buttonLogin{
-  
+.userinfo .buttonLogin{
+  margin-top:10%; 
+  background-color: #00bfff;
 }
 .userinfo {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100px;
+  padding-bottom: 30rpx;
+}
+
+.userinfo .userinfo-nickname{
+  font-size: 30rpx;
+  display: flex;
+	flex-direction: column;
 }
 
 .userinfo-avatar {
@@ -22,13 +29,19 @@
   border-radius: 50%;
 }
 
-.userinfo-nickname {
-  font-size: 9px;
+/* .userinfo-nickname {
+  font-size: 24rpx;
   color: #aaa;
+  display: block;
+  margin-top: 25%;
+} */
+
+.page__hd{
+  margin-bottom: 15%;
 }
 
 .usermotto {
-  margin-top: 100px;
+  margin-top: 100rpx;
 }
 
 .body-line {

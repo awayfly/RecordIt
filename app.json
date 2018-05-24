@@ -11,8 +11,8 @@
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "演示",
-    "navigationBarBackgroundColor": "#F8F8F8",
-    "backgroundColor": "#F8F8F8"
+    "navigationBarBackgroundColor": "#00bfff",
+    "backgroundColor": "#00bfff"
   },
   "tabBar": {
     "color": "#7A7E83",

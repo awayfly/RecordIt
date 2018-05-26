@@ -1,8 +1,6 @@
 <view class='container'>
   <view class='page-body'>
-    <view class='top-button'>
-      <button class='reset' bindtap='resetOn'>重置</button>
-    </view>
+
     <view class='sport-data'>
       <view class='sport-speed'>
         <view class='page-text'>
@@ -19,7 +17,11 @@
     </view>
 
     <view class='center-line'>
-      <text>-----------------------------</text>
+      <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+        <view class="picker">
+          设置运动时长：{{array[count]}}min
+        </view>
+      </picker>
     </view>
     <!-- 产生的数据 -->
     <view class='produce-data'>
@@ -54,6 +56,13 @@
       </view>
 
     </view>
-    <button bindtap='starRun'>开始</button>
+    <view class='bottom_button'>
+      <view>
+        <button type="primary" bindtap='starRun' class='start' >开始/暂停</button>
+      </view>
+      <view>
+        <button bindtap='resetRun' class='reset'>重置</button>
+      </view>
+    </view>
   </view>
 </view>

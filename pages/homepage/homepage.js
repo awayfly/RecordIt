@@ -15,9 +15,10 @@ Page({
     })
   },
   onLoad: function () {
+
     wx.getStorage({
       key: 'nickName',
-      success: function(res) {
+      success: function (res) {
         console.log(res.data)
       },
     })
@@ -46,18 +47,19 @@ Page({
     //   }
     // } else {
     //   // 在没有 open-type=getUserInfo 版本的兼容处理
-      // wx.getUserInfo({
-      //   success: res => {
-      //     app.globalData.userInfo = res.userInfo
-      //     this.setData({
-      //       userInfo: res.userInfo,
-      //       hasUserInfo: true
-      //     })
-      //   }
-      // })
+    // wx.getUserInfo({
+    //   success: res => {
+    //     app.globalData.userInfo = res.userInfo
+    //     this.setData({
+    //       userInfo: res.userInfo,
+    //       hasUserInfo: true
+    //     })
+    //   }
+    // })
     // }
   },
   getUserInfo: function (e) {
+    var that = this;
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo
     var nickname = e.detail.userInfo.nickName
@@ -71,5 +73,32 @@ Page({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
+
+        wx.request({
+          url: 'https://xprogram.hczzz.club/sport/user',
+          data: {
+            thirdSession: wx.getStorageSync("thirdSession"),
+            nickname: nickname
+          },
+          header: {
+            'content-type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json'
+          },
+          method: "POST",
+          success: function (res1) {
+
+            console.log("message值app HomePage  :  " + res1.data.message)
+            console.log("nickName" + nickname + wx.getStorageSync("thirdSession"))
+
+            if (that.userSessionReadyCallback) {
+              that.userSessionReadyCallback(res1)
+            }
+          }
+        })
+
+    
+
+   
+
   }
 })

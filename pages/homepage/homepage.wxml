@@ -8,9 +8,9 @@
           </view>
           <view class="userinfo" style='ba'>
             <open-data type="userAvatarUrl" class='open-data'></open-data>
-            <button wx:if="{{!hasUserInfo && canIUse}}" type="primary" open-type="getUserInfo" bindgetuserinfo="getUserInfo" class='buttonLogin weui-btn'>点击登陆</button>
+            <button wx:if="{{!hasUserInfo && canIUse&&!loginStatus}}" type="primary" open-type="getUserInfo" bindgetuserinfo="getUserInfo" class='buttonLogin weui-btn'>点击登陆</button>
             <block wx:else>
-              <view class="userinfo-nickname">{{userInfo.nickName}}</view>
+              <view class="userinfo-nickname">{{nickName}}</view>
             </block>
           </view>
           <view class='userinfo'></view>

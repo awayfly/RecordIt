@@ -6,7 +6,8 @@
     "pages/chat/chat",
     "pages/homepage/homepage",
     "pages/homepage/userInfo/userInfo",
-    "pages/charts/charts"
+    "pages/charts/charts",
+    "pages/info/info"
   ],
   "window": {
     "navigationBarTextStyle": "black",

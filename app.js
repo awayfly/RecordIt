@@ -19,10 +19,11 @@ App({
     wx.login({
       success: logincode => {
         if (logincode.code) {
+          console.log(logincode);
           //发起网络请求
           wx.request({
-            url: '',// 'https://api.weixin.qq.com/sns/jscode2session?appid=wx2e8ecc979a8870fe&secret=4d0d917f7363fc9441e219200c930776&js_code=' + logincode.code + '&grant_type=authorization_code',
-            //url: 'https://192.168.43.189:8443/sport/user',//+ "{\"js_code\":" + "\"" + logincode.code + "\"" + "\"nickname\":" + "\"" + nickName + "\"}",
+            // url: 'https://api.weixin.qq.com/sns/jscode2session?appid=wx2e8ecc979a8870fe&secret=4d0d917f7363fc9441e219200c930776&js_code=' + logincode.code + '&grant_type=authorization_code',
+            // url: 'https://xprogram.hczzz.club/sport/user'+ "{\"js_code\":" + "\"" + logincode.code + "\"" + "\"nickname\":" + "\"" + nickName + "\"}",
             data: {
               
             },

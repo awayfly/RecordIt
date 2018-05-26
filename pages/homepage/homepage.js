@@ -66,6 +66,7 @@ Page({
       key: 'nickName',
       data: nickname,
     })
+    
     this.setData({
       userInfo: e.detail.userInfo,
       hasUserInfo: true

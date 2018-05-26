@@ -76,6 +76,7 @@ Page({
       key: 'nickName',
       data: nickname,
     })
+    
     this.setData({
       nickName: e.detail.userInfo.nickName,
       hasUserInfo: true

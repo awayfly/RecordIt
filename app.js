@@ -14,18 +14,7 @@ App({
         console.log("iv值app   :  " + res.iv)
       }
     })
-    
-    console.log("sessionKeyLLLLLLLLLLL="+wx.getStorageSync("sessionKey"))
-
-    // var session;
-    // wx.getStorage({
-    //   key: 'sessionKey',
-    //   success: function (res) {
-
-    //     session = res.data
-    //     console.log(session)
-    //   },
-    // })
+  
         // 登录
         wx.login({
           success: logincode => {

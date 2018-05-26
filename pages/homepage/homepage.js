@@ -4,9 +4,10 @@ const app = getApp()
 
 Page({
   data: {
-    userInfo: {},
+    nickName: '',
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    loginStatus:false
   },
   //事件处理函数
   bindViewTap: function () {
@@ -15,6 +16,14 @@ Page({
     })
   },
   onLoad: function () {
+    var that = this
+    if (wx.getStorageSync("Loginmessage") == '可以自动登陆') {
+      that.setData({
+        loginStatus: true,
+        nickName: wx.getStorageSync("nickName")
+      })
+    }
+
 
     wx.getStorage({
       key: 'nickName',
@@ -60,7 +69,6 @@ Page({
   },
   getUserInfo: function (e) {
     var that = this;
-    console.log(e)
     app.globalData.userInfo = e.detail.userInfo
     var nickname = e.detail.userInfo.nickName
     console.log(nickname)
@@ -70,9 +78,11 @@ Page({
     })
     
     this.setData({
-      userInfo: e.detail.userInfo,
+      nickName: e.detail.userInfo.nickName,
       hasUserInfo: true
     })
+
+    
 
         wx.request({
           url: 'https://xprogram.hczzz.club/sport/user',

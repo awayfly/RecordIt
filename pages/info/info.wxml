@@ -10,7 +10,7 @@
                     <view class="weui-label">身高(cm)</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请输入身高"/>
+                    <input class="weui-input" bindinput='height' placeholder="请输入身高" value='{{height}}'/>
                 </view>
             </view>
             <view class="weui-cell weui-cell_input">
@@ -18,7 +18,7 @@
                     <view class="weui-label">体重(kg)</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请输入体重"/>
+                    <input class="weui-input" bindinput='weight' placeholder="请输入体重" value='{{weight}}'/>
                 </view>
             </view>
             <view class="weui-cell weui-cell_input">
@@ -26,7 +26,7 @@
                     <view class="weui-label">年龄</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请输入年龄"/>
+                    <input class="weui-input" bindinput='age' placeholder="请输入年龄" value='{{age}}'/>
                 </view>
             </view>
             <view class="weui-cell weui-cell_select">
@@ -34,12 +34,13 @@
                 <view class="weui-label">性别</view>
               </view>
               <view class="weui-cell__bd">
-                <picker bindchange="bindAccountChange" value="{{sexIndex}}" range="{{sex}}">
-                  <view class="weui-select">{{sex[sexIndex]}}</view>
+                <picker bindchange="sex" value="{{sexIndex}}" range="{{sex}}">
+                  <view class="weui-select" >{{sex[sexIndex]}}</view>
                 </picker>
               </view>
             </view>
         </view>
+        <button type="primary" class='buttonLogin weui-btn' disabled='{{!(heightChange||weightChange||ageChange||sexChange)}}' bindtap='submitUserInfo'>提交修改</button>
         <view class="weui-cells__tips">请如实填写哦~</view>
     </view>
 </view>

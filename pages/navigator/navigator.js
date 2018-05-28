@@ -5,8 +5,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    navbar: ['推荐', '身边', '我'],
-    currentTab: 0 
+    navbar: ['推荐', '附近', '记录'],
+    currentTab: 0 ,
+    time:"7:00",
   },
   navbarTap: function (e) {
     this.setData({
@@ -25,6 +26,13 @@ Page({
   
   },
 
+  bindTimeChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      time: e.detail.value
+    })
+  },
+  
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

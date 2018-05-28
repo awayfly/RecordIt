@@ -1,12 +1,12 @@
 {
   "pages": [
-    "pages/index/index",
     "pages/navigator/navigator",
+    "pages/charts/charts",
+    "pages/index/index",
     "pages/logs/logs",
     "pages/chat/chat",
     "pages/homepage/homepage",
     "pages/homepage/userInfo/userInfo",
-    "pages/charts/charts",
     "pages/info/info"
   ],
   "window": {

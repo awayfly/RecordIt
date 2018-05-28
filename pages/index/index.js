@@ -117,6 +117,14 @@ Page({
       altitude: true,
       success: function(res) {
         console.log(res)
+        wx.setStorage({
+          key: 'longitude',
+          data: res.longitude,
+        })
+        wx.setStorage({
+          key: 'latitude',
+          data: res.latitude,
+        })
         that.setData({
           speed:res.speed,
           accuracy:res.accuracy

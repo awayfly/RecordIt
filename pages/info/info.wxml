@@ -39,7 +39,7 @@
                 </picker>
               </view>
             </view>
-        </view>
+        </view> 
         <button type="primary" class='buttonLogin weui-btn' disabled='{{!(heightChange||weightChange||ageChange||sexChange)}}' bindtap='submitUserInfo'>提交修改</button>
         <view class="weui-cells__tips">请如实填写哦~</view>
     </view>

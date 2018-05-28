@@ -27,5 +27,13 @@
 
 <!--我-->
 <view hidden="{{currentTab!==2}}">
+<view class="section">
+  <view class="section__title">时间选择器</view>
+  <picker mode="time" value="{{time}}" start="00:00" end="23:59" bindchange="bindTimeChange">
+    <view class="picker">
+      当前选择: {{time}}
+    </view>
+  </picker>
+</view>
   tab_03
 </view>

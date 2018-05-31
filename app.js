@@ -11,6 +11,8 @@ App({
     wx.getWeRunData({
 
       success: res => {
+        //console.log("encryptedData值：      ")
+        //console.log(res.encryptedData)
         console.log("iv值app   :  " + res.iv)
       }
     })
@@ -35,9 +37,9 @@ App({
                 success: function (res) {
                   console.log(res)
                   console.log("code值app   :  " + logincode.code)
-                  console.log("data值app   :  " + res.data.message)
-                  console.log("sessionKey值app   :  " + res.data.sessionKey)
-                  console.log("thirdSession值app   :  " + res.data.thirdSessionId)
+                  // console.log("data值app   :  " + res.data.message)
+                  // console.log("sessionKey值app   :  " + res.data.sessionKey)
+                  // console.log("thirdSession值app   :  " + res.data.thirdSessionId)
                   
                   //存储登录状态
                   wx.setStorage({

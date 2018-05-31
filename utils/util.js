@@ -35,11 +35,15 @@ function timetransYMD(date) {
 }
 
 
-function YMDteanstats(data) {
+function YMDteanstats(data) {////////////
   var strtime = data;
   let allData = [];
 
   var time3 = (Date.parse(strtime)) / 1000;
+
+  let ll =time3 + 6 * 24 * 3600;
+  allData[0] = ll;
+  allData[1] =time3;
   for (let i = 0; i <= 9; i++) {
     let ll = time3 - i * 24 * 3600
     allData[i] = "\"" + ll + "\"";
@@ -48,7 +52,7 @@ function YMDteanstats(data) {
   return allData;
 }
 
-function AutoYMDteanstats() {
+function AutoYMDteanstats() {//////////////初始化时间
 
   var myDate = new Date();
   myDate.getFullYear();    //获取完整的年份(4位,1970-????)
@@ -63,10 +67,10 @@ function AutoYMDteanstats() {
 
   var time3 = (Date.parse(strtime)) / 1000;
   console.log("time3++++++:" + time3)
-  for (let i = 6; i >= 0; i--) {
-    let ll = time3 - i * 24 * 3600
-    allData[i] =ll// "\"" + ll + "\"";
-  }
+  let all = time3 + 6 * 24 * 3600;
+  allData[0] = all;
+  allData[1] = time3;
+ 
 
   return allData;
 }

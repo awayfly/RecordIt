@@ -1,39 +1,41 @@
-<!-- pages/navigator/navigator.wxml
-<view class='navbar'>
-  <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap='navbarTap'></text>
-</view>
-<view hidden='{{currentTab!==0}}'>ss0</view>
+<view class='headPage'>
+  <view class="ringCanvas" style='background-image:url("https://res.wx.qq.com/mpres/zh_CN/htmledition/pages/login/loginpage/images/bg_banner3c96b5.png");background-repeat: repeat no-repeat;'>
+    <canvas canvas-id="ringCanvas" class="canvas" bindtouchstart="touchHandler"></canvas>
+    
+  </view>
 
-<view hidden='{{currentTab!==1}}'>ss1</view>
-
-<view hidden='{{currentTab!==2}}'>ss2</view> -->
-
-<!--导航条-->
-<view class="navbar">
-  <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</text>
-  
-</view>
-
-<!--首页-->
-<view hidden="{{currentTab!==0}}">
-  <image src=''></image>
-  <button bindtap='charts'>charts</button>
-</view>
-
-<!--搜索-->
-<view hidden="{{currentTab!==1}}">
-  tab_02
-</view>
-
-<!--我-->
-<view hidden="{{currentTab!==2}}">
-<view class="section">
-  <view class="section__title">时间选择器</view>
-  <picker mode="time" value="{{time}}" start="00:00" end="23:59" bindchange="bindTimeChange">
-    <view class="picker">
-      当前选择: {{time}}
+  <view class='enterList'>
+    <view class=' imageList ' bindtap='charts'>
+      <view class='imageData'>
+        <image src=' ../../image/bar-chart.svg ' class='imageSize' />
+      </view>
+      <view class='center-line'>
+        <text class='content-text'>曲线</text>
+      </view>
     </view>
-  </picker>
+    <view class=' imageList ' bindtap='record'>
+      <view class='imageData'>
+        <image src=' ../../image/edit.svg ' class='imageSize' />
+      </view>
+      <view class='center-line'>
+        <text class='content-text' >记录</text>
+      </view>
+    </view>
+    <view class=' imageList '>
+      <view class='imageData'>
+        <image src=' ../../image/nearby.svg ' class='imageSize'/>
+      </view>
+      <view class='center-line'>
+        <text class='content-text'>附近</text>
+      </view>
+    </view>
+  </view>
+
+
 </view>
+
+<!-- 我
+<view hidden="{{currentTab!==2}}">
+ 
   tab_03
-</view>
+</view> -->

@@ -1,13 +1,17 @@
 // pages/navigator/navigator.js
+var wxCharts = require('../../utils/wxcharts.js')
+var timeTrans = require('../../utils/util.js')
+var app = getApp();
+var ringChart = null;
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    navbar: ['推荐', '附近', '记录'],
-    currentTab: 0 ,
-    time:"7:00",
+    
+    imageid:""
   },
   navbarTap: function (e) {
     this.setData({
@@ -19,6 +23,11 @@ Page({
       url: '../charts/charts',
     })
   },
+  record:function(){
+    wx.navigateTo({
+      url: '../record/record',
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -26,19 +35,123 @@ Page({
   
   },
 
-  bindTimeChange: function (e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
-    this.setData({
-      time: e.detail.value
+  
+  touchHandler: function (e) {
+    this.updateData()
+    console.log(ringChart.getCurrentDataIndex(e));
+    var tit = ringChart.getCurrentDataIndex(e)
+    wx.showToast({
+      title: " 更新完成",
     })
   },
-  
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
+  updateData: function () {
+    ringChart.updateData({
+      title: {
+        name: '80%'
+      },
+      subtitle: {
+        color: '#ff0000'
+      }
+    });
   },
+  onReady: function (e) {
+    var windowWidth = 320;
+    try {
+      var res = wx.getSystemInfoSync();
+      windowWidth = res.windowWidth;
+    } catch (e) {
+      console.error('getSystemInfoSync failed!');
+    }
+
+    ringChart = new wxCharts({
+      animation: true,
+      canvasId: 'ringCanvas',
+      type: 'ring',
+      extra: {
+        ringWidth: 25,
+        pie: {
+          offsetAngle: -45
+        }
+      },
+      title: {
+        name: '70%',
+        color: '#7cb5ec',
+        fontSize: 25
+      },
+      subtitle: {
+        name: '完成量',
+        color: '#666666',
+        fontSize: 15
+      },
+      series: [{
+        name: '成交量1',
+        data: 15,
+        stroke: false
+      }, {
+        name: '成交量2',
+        data: 35,
+        stroke: false
+      },],
+      disablePieStroke: true,
+      width: windowWidth,
+      height: 200,
+      dataLabel: false,
+      legend: false,
+      background: '#f5f5f5',
+      padding: 0
+    });
+    ringChart.addEventListener('renderComplete', () => {
+      console.log('renderComplete');
+    });
+    setTimeout(() => {
+      ringChart.stopAnimation();
+    }, 500);
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   /**
    * 生命周期函数--监听页面显示

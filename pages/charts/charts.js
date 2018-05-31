@@ -77,14 +77,20 @@ Page({
   */
   RequestEnergy: function (num) {
     var that = this;
+    var starData;
+    var endData;
 
     var allDate;
 
 
     if (num == 1) {
       allDate = timeTrans.AutoYMDteanstats();
+      starData = allDate[0];
+      endData = allDate[1];
     } else if (num == 2) {
       allDate = timeTrans.YMDteanstats(that.data.dataYMDStar + " 00:00:00");
+      starData = allDate[0];
+      endData = allDate[1];
     } else {
       console.log("请求类型错误")
       return;
@@ -96,7 +102,8 @@ Page({
       url: 'https://xprogram.hczzz.club/sport/info',
       data: {
         thirdSession: wx.getStorageSync("thirdSession"),
-        "yourParam[]":[1,2,3,4],
+        starttime: starData,
+        endtime: endData
         //times: "[1510329600]"// allDate
       },
       header: {
@@ -109,22 +116,29 @@ Page({
         var intakeK = [];
         var timesstampsK = [];
 
-        for (let i = 0; i < 10; i++) {
-          let count = 0;
-          for (let j = 0; j < 3; j++) {
-            count += res.data.data[i].dishs[j].amount * res.data[i].dishs[j].calories / 100;
+        
+
+          for (let i = 0; i < 7; i++) {
+            if (res.data.data[i] == null)
+              break;
+            let count = 0;
+            for (let j = 0; j < 3; j++) {
+              
+              count += res.data.data[i].dishs[j].amount * res.data[i].dishs[j].calories;
+            }
+            intakeK[i] = count;
+            consumptionK[i] = res.data[i].sport.heat;
+            timesstampsK[i] = timeTrans.timetransYMD(res.data[i].date);//将时间戳转化为YMD格式
           }
-          intakeK[i] = count;
-          consumptionK[i] = res.data[i].sport.heat;
-          timesstampsK[i] = timeTrans.timetransYMD(res.data[i].date);//将时间戳转化为YMD格式
-        }
-        console.log(res.data + "信息获取")
+
+        console.log(res)
         that.setData({
           consumption: consumptionK,//运动量/天
           intake: intakeK,//摄入量
           timesstamps: timesstampsK//时间戳
         })
       }
+
     })
 
     wx.request({/*请求推荐运动量*/
@@ -138,7 +152,7 @@ Page({
       },
       method: "POST",
       success: function (res) {
-        console.log(res.data.message+"KKKKKKK")
+        console.log(res.data.message + "KKKKKKK")
         console.log(res.data.suggest + "请求推荐运动量")
         var RecAmountK = [];
         for (let i = 0; i < 10; i++) {

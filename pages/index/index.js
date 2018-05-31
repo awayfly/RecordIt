@@ -2,33 +2,42 @@ var starRun = 0;
 var countOne = 0;
 var countTwo = 0;
 var time_count = 0;
-var select_time = 0;
+var select_time = 0.1;
 var select_time_min = 0;
+var oriMeters = 0.0;
 
-function data_update(that){
+function data_update(that) {
 
-  
-  
-  if(starRun == 0){
+
+
+  if (starRun == 0) {
     return;
   }
 
-  if(countOne>=100){
+  if (countOne >= 500) {
     var time = date_format(countTwo)
     that.updateTime(time)
   }
+  if (countOne % 500 == 0)
+    that.getLocation()
 
-  setTimeout(function() {
+  setTimeout(function () {
+
     countOne += 10;
     countTwo += 10;
     select_time_min = select_time * 60 * 1000;
-    if (select_time_min == countTwo) {
+    if (select_time_min == countTwo - 10 && countTwo > 20) {
       starRun = 0;
+      wx.showToast({
+        title: '预设目标达成！！！',
+        icon:'success',
+      })
       return;
     }
-    console.log(countOne + countTwo + "LLLLLLLLLLLLLLL")
+
+    // console.log(countOne + countTwo + "LLLLLLLLLLLLLLL")
     data_update(that)
-  },10)
+  }, 10)
 }
 
 
@@ -51,47 +60,63 @@ function fill_zero_prefix(num) {
   return num < 10 ? "0" + num : num
 }
 
+function getDistance(lat1, lng1, lat2, lng2) {
+  var dis = 0;
+  var radLat1 = toRadians(lat1);
+  var radLat2 = toRadians(lat2);
+  var deltaLat = radLat1 - radLat2;
+  var deltaLng = toRadians(lng1) - toRadians(lng2);
+  var dis = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(deltaLat / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(deltaLng / 2), 2)));
+  return dis * 6378137;
+
+  function toRadians(d) { return d * Math.PI / 180; }
+}
+
 Page({
 
 
   data: {
-    count:'0',
-    array:['0','1','5','10','20','30','40','50','60'],
-    speed:0,
-    usetime:'00:00:00',
-    accuracy:"未知",
-    away:0,
-    Calories:0,
-    sportTime: '00:00'
-  
+    count: '0',
+    array: ['0', '1', '5', '10', '20', '30', '40', '50', '60'],
+    speed: 0,
+    usetime: '00:00:00',
+    accuracy: "未知",
+    away: 0,//跑步里程
+    Calories: 0,
+    sportTime: '00:00',
+    postion: [],//坐标位置存储数组，只存储两个数据项，计算两次的距离差值
+
+
   },
 
 
   onLoad: function (options) {//初始化化界面
-    this.getLocation()
-    data_update(this)
-    
 
-    
+    var that = this
+    wx.getLocation({
+      success: function (res) {
+        that.setData({
+          accuracy: res.accuracy
+        })
+      },
+    })
+
   },
 
-  starRun:function(){
-    if(starRun == 1){
+  starRun: function () {
+    if (starRun == 1) {
       starRun = 0;
       data_update(this);
       return;
-      this.getLocation()
-      data_update(this)
     }
-    this.getLocation()
-    data_update(this)
     starRun = 1;
     data_update(this)
   },
 
   updateTime: function (time) {
-    console.log(time+"LLLLLLLLL")
+
     var that = this
+
     var data = this.data;
     data.time = time;
     this.data = data;
@@ -100,41 +125,92 @@ Page({
     })
 
   },
-  resetRun:function(){
+  resetRun: function () {
     var that = this;
     starRun = 0;
+    countOne = 0;
+    countTwo = 0;
+    data_update(this)
     that.setData({
-      speed: 111,
-      usertime:'00:00:00',
-      away:111
+      speed: 0.00,
+      usetime: '00:00:00',
+      away: 0.00,
+      accuracy: 0.0
     })
   },
 
-  getLocation:function(){
+  getLocation: function () {
     var that = this;
     wx.getLocation({
       type: 'wgs84',
       altitude: true,
-      success: function(res) {
-        console.log(res)
-        wx.setStorage({
-          key: 'longitude',
-          data: res.longitude,
-        })
-        wx.setStorage({
-          key: 'latitude',
-          data: res.latitude,
-        })
+      success: function (res) {
+
+        // var NewLocal = {
+        //   NewLongitude : res.longitude,//经度
+        //   NewLatitude : res.latitude//纬度
+        // };
+
+        // console.log(NewLocal+"NewLoCalllllLLLLLLLLLLL")
+
+        // var LocalPostion = that.data.postion
+
+        // if(LocalPostion.length == 0){
+        //   LocalPostion.push(NewLocal)
+        // }
+
+        // if(LocalPostion.length > 2){
+        //   LocalPostion.splice(0, 1)
+        // }
+
+        // console.log(LocalPostion +"经纬度存储数组")
+        // var LastLocalPost = LocalPostion[LocalPostion.length - 1]
+
+
+        var newCover = {
+          latitude: res.latitude,
+          longitude: res.longitude,
+        };
+        var oriCovers = that.data.postion;
+
+        var len = oriCovers.length;
+        var lastCover;
+        if (len == 0) {
+          oriCovers.push(newCover);
+        }
+
+        if (len >= 2) {
+          oriCovers.splice(0, 1)
+        }
+        len = oriCovers.length;
+        var lastCover = oriCovers[len - 1];
+
+        console.log("Speed----------")
+        console.log(res.speed.toFixed(2));
+
+        var newMeters = getDistance(lastCover.latitude, lastCover.longitude, res.latitude, res.longitude) / 1000;
+        oriCovers.push(newCover)
+
+        oriMeters = oriMeters + newMeters;
+
+
+        var meters = new Number(oriMeters);
+        // console.log("meters----------")
+        // console.log(meters);
+        var showMeters = meters.toFixed(2);
+
+
         that.setData({
-          speed:res.speed,
-          accuracy:res.accuracy
-          
+          speed: ((res.speed) * 3.6).toFixed(2) < 0 ? "0.00" : ((res.speed) * 3.6).toFixed(2),
+          accuracy: (res.accuracy).toFixed(1),
+          postion: oriCovers,
+          away: showMeters
         })
       },
-      fail: function(res) {
+      fail: function (res) {
         console.log(res)
       },
-      complete: function(res) {},
+      complete: function (res) { },
     })
   },
   bindPickerChange: function (e) {
@@ -156,5 +232,5 @@ Page({
       return;
     }
   },
- 
+
 })

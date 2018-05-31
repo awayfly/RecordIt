@@ -4,15 +4,15 @@
     <view class='sport-data'>
       <view class='sport-speed'>
         <view class='page-text'>
-          <text class='speedText'>配速(min/km)</text>
+          <text class='sport-Text'>配速(km/h)</text>
         </view>
-        <view class='speed-num'>{{speed}}</view>
+        <view class='sport-num'>{{speed}}</view>
       </view>
       <view class='sport-time'>
         <view class='page-text'>
-          <text class='timeText'>时间</text>
+          <text class='sport-Text'>时间</text>
         </view>
-        <view class='time-num'>{{usetime}}</view>
+        <view class='sport-num'>{{usetime}}</view>
       </view>
     </view>
 
@@ -27,30 +27,30 @@
     <view class='produce-data'>
       <view class='accuracy-data'>
         <view class='image-data'>
-          <image class='images' src='../../image/tag.png'></image>
+          <image class='images' src='../../image/question.svg'></image>
         </view>
         <view class='text-data'>
-          <text class='accuracy-Text'>准确度</text>
+          <text class='produce-Text'>准确度</text>
         </view>
         <view class='accuracy-num' bindtap='AccuracyNum'>{{accuracy}}</view>
       </view>
 
       <view class='accuracy-data'>
         <view class='image-data'>
-          <image class='images' src='../../image/electric.png'></image>
+          <image class='images' src='../../image/walking.svg'></image>
         </view>
         <view class='text-data'>
-          <text class='AwayText'>距离</text>
+          <text class='produce-Text'>距离</text>
         </view>
-        <view class='AwayNum' bindtap='awayNum'>{{away}}m</view>
+        <view class='AwayNum' bindtap='awayNum'>{{away}}km</view>
       </view>
 
       <view class='accuracy-data'>
         <view class='image-data'>
-          <image class='images' src='../../image/snow-flake.png'></image>
+          <image class='images' src='../../image/hotjar.svg'></image>
         </view>
         <view class='text-data'>
-          <text class='CaloriesText'>卡路里</text>
+          <text class='produce-Text'>卡路里</text>
         </view>
         <view class='CaloriesNum' bindtap='Calories'>{{Calories}}k</view>
       </view>
@@ -61,7 +61,7 @@
         <button type="primary" bindtap='starRun' class='start' >开始/暂停</button>
       </view>
       <view>
-        <button bindtap='resetRun' class='reset'>重置</button>
+        <button type='default' bindtap='resetRun' class='reset'>重置</button>
       </view>
     </view>
   </view>

@@ -152,8 +152,14 @@ Page({
         }
         console.log(res)
 
+        var stepToDay = res.data.stepInfoList[30].step == null ? 0 : res.data.stepInfoList[30].step
+        wx.setStorage({
+          key: 'step',
+          data: stepToDay,
+        })
+
       that.setData({
-        stepCount: res.data.stepInfoList[30].step == null ? 0 : res.data.stepInfoList[30].step
+        stepCount: stepToDay
       })
 
       },

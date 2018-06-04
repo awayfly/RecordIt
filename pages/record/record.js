@@ -73,7 +73,7 @@ Page({
     var timestamp = timeTrans.AutoYMDteanstats();/**获取当前日期的时间戳，不包括时分秒*/
     var foodData = this.data.foodList[count];
     var aa = {
-      data: timestamp[1], "dishs": [{ "dishName": foodData.name, "amount": foodData.weight, "calories": foodData.calorie}],"sport": {"step":"2333", "heat":"2333"
+      data: timestamp[1], "dishs": [{ "dishName": foodData.name, "amount": foodData.weight, "calories": foodData.calorie}],"sport": {"step":wx.getStorageSync("step"), "heat":"2333"
       }
 }
 

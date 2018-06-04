@@ -33,21 +33,21 @@ function timetransYMD(date) {
   var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' ';
   return Y + M + D;
 }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function YMDteanstats(data) {////////////
   var strtime = data;
   let allData = [];
 
-  var time3 = (Date.parse(strtime)) / 1000;
+  var star = (Date.parse(strtime)) / 1000;
 
-  let ll = time3 + 6 * 24 * 3600;
-  allData[0] = ll;
-  allData[1] = time3;
-  for (let i = 0; i <= 9; i++) {
-    let ll = time3 - i * 24 * 3600
-    allData[i] = "\"" + ll + "\"";
-  }
+  let end = star + 6 * 24 * 3600;
+  allData[0] = star;
+  allData[1] = end;
+  // for (let i = 0; i <= 9; i++) {
+  //   let ll = time3 - i * 24 * 3600
+  //   allData[i] = "\"" + ll + "\"";
+  // }
 
   return allData;
 }
@@ -65,11 +65,11 @@ function AutoYMDteanstats() {//////////////初始化时间
   var strtime = newData;
   let allData = [];
 
-  var time3 = (Date.parse(strtime)) / 1000;
-  console.log("time3++++++:" + time3)
-  let all = time3 + 6 * 24 * 3600;
-  allData[0] = all;
-  allData[1] = time3;
+  var end = (Date.parse(strtime)) / 1000;
+  console.log("time3++++++:" + end)
+  let star = end - 6 * 24 * 3600;
+  allData[0] = star;
+  allData[1] = end;
 
 
   return allData;

@@ -1,8 +1,8 @@
 {
   "pages": [
+    "pages/charts/charts",
     "pages/navigator/navigator",
     "pages/record/record",
-    "pages/charts/charts",
     "pages/index/index",
     "pages/logs/logs",
     "pages/homepage/homepage",

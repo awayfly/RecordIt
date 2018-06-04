@@ -1,7 +1,7 @@
 <view class='headPage'>
-  <view class="ringCanvas" style='background-image:url("https://res.wx.qq.com/mpres/zh_CN/htmledition/pages/login/loginpage/images/bg_banner3c96b5.png");background-repeat: repeat no-repeat;'>
+  <view class="ringCanvas" style='background-image:url("../../image/image.jpg");background-repeat: repeat no-repeat;'>
     <canvas canvas-id="ringCanvas" class="canvas" bindtouchstart="touchHandler"></canvas>
-    
+
   </view>
 
   <view class='enterList'>
@@ -18,12 +18,12 @@
         <image src=' ../../image/edit.svg ' class='imageSize' />
       </view>
       <view class='center-line'>
-        <text class='content-text' >记录</text>
+        <text class='content-text'>记录</text>
       </view>
     </view>
     <view class=' imageList '>
       <view class='imageData'>
-        <image src=' ../../image/nearby.svg ' class='imageSize'/>
+        <image src=' ../../image/nearby.svg ' class='imageSize' />
       </view>
       <view class='center-line'>
         <text class='content-text'>附近</text>
@@ -31,11 +31,50 @@
     </view>
   </view>
 
+  <view class='info-history'>
+    <view class="weui-cells weui-cells_after-title">
+      <view class='sport-data-list'>
+        <view class='info-list1'>
+          <view class='info-image' bindtap='stepRefresh'>
+            <image src='../../image/step.svg' class='info-image-list'></image>
+          </view>
+          <view class='info-text'>
+            <view>
+              <text class='info-text-list'>今日步数</text>
+            </view>
+            <view>
+              <text>{{stepCount}}</text>
+            </view>
+          </view>
+        </view>
 
+        <view class='info-list1'>
+          <view class='info-image' bindtap='stepRefresh'>
+            <image src='../../image/flame.svg' class='info-image-list'></image>
+          </view>
+          <view class='info-text'>
+            <view>
+              <text class='info-text-list'>推荐消耗能量</text>
+            </view>
+            <view>
+              <text>{{calories}}千卡</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-cells weui-cells_after-title">
+      <view class='food-data-list'>
+        <view wx:for="{{foodList}}" class='food-items'>
+          <text>{{item.max}}  </text>
+          <text>{{item.average}}  </text>
+          <text>{{item.starts}}  </text>
+          <text>{{item.min}}  </text>
+        </view>
+
+      </view>
+    </view>
+
+  </view>
 </view>
-
-<!-- 我
-<view hidden="{{currentTab!==2}}">
- 
-  tab_03
-</view> -->

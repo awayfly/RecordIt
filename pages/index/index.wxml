@@ -16,7 +16,7 @@
       </view>
     </view>
 
-    <view class='center-line'>
+    <view class='center-line weui-cells weui-cells_after-title'> 
       <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
         <view class="picker">
           设置运动时长：{{array[count]}}min
@@ -27,7 +27,7 @@
     <view class='produce-data'>
       <view class='accuracy-data'>
         <view class='image-data'>
-          <image class='images' src='../../image/question.svg'></image>
+          <image class='images' src='../../image/question-mark.svg'></image>
         </view>
         <view class='text-data'>
           <text class='produce-Text'>准确度</text>
@@ -37,7 +37,7 @@
 
       <view class='accuracy-data'>
         <view class='image-data'>
-          <image class='images' src='../../image/walking.svg'></image>
+          <image class='images' src='../../image/running.svg'></image>
         </view>
         <view class='text-data'>
           <text class='produce-Text'>距离</text>
@@ -47,12 +47,12 @@
 
       <view class='accuracy-data'>
         <view class='image-data'>
-          <image class='images' src='../../image/hotjar.svg'></image>
+          <image class='images' src='../../image/fire.svg'></image>
         </view>
         <view class='text-data'>
           <text class='produce-Text'>卡路里</text>
         </view>
-        <view class='CaloriesNum' bindtap='Calories'>{{Calories}}k</view>
+        <view class='CaloriesNum' bindtap='Calories' style='-webkit-text-fill-color:#62daaa'>{{Calories}}千卡</view>
       </view>
 
     </view>

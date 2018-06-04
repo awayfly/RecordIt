@@ -1,14 +1,13 @@
 {
   "pages": [
     "pages/navigator/navigator",
-    "pages/index/index",
+    "pages/record/record",
     "pages/charts/charts",
+    "pages/index/index",
     "pages/logs/logs",
-    "pages/chat/chat",
     "pages/homepage/homepage",
     "pages/homepage/userInfo/userInfo",
-    "pages/info/info",
-    "pages/record/record"
+    "pages/info/info"
   ],
   "window": {
     "navigationBarTextStyle": "black",

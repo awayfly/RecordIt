@@ -8,19 +8,13 @@ App({
     var that = this
     wx.setStorageSync('logs', logs)
     //获取运动步数
-    wx.getWeRunData({
-
-      success: res => {
-        //console.log("encryptedData值：      ")
-        //console.log(res.encryptedData)
-        console.log("iv值app   :  " + res.iv)
-      }
-    })
+    
   
         // 登录
         wx.login({
           success: logincode => {
             if (logincode.code) {
+              
               //发起网络请求
               wx.request({
                 url: 'https://xprogram.hczzz.club/sport/user/judge',//
@@ -36,10 +30,13 @@ App({
                 method: "POST",
                 success: function (res) {
                   console.log(res)
-                  console.log("code值app   :  " + logincode.code)
-                  // console.log("data值app   :  " + res.data.message)
-                  // console.log("sessionKey值app   :  " + res.data.sessionKey)
-                  // console.log("thirdSession值app   :  " + res.data.thirdSessionId)
+                  console.log("sportSession值app   :  ")
+                  console.log(res.data.sportSession)
+
+                  wx.setStorage({
+                    key: 'sportSession',
+                    data: res.data.sportSession,
+                  })
                   
                   //存储登录状态
                   wx.setStorage({
@@ -75,6 +72,50 @@ App({
         if (res.authSetting['scope.userInfo']) {
         
         }
+      }
+    })
+
+
+    wx.getWeRunData({
+      success: res => {
+        wx.setStorage({
+          key: 'encryptedData',
+          data: res.encryptedData,
+        })
+
+        wx.setStorage({
+          key: 'iv',
+          data: res.iv,
+        })
+
+
+
+        // wx.request({
+        //   url: 'https://xprogram.hczzz.club/sport/sport',
+        //   data: {
+        //     data: res.encryptedData,
+        //     session: wx.getStorageSync("sportSession"),
+        //     iv: res.iv,
+        //   },
+        //   header: {
+        //     'content-type': 'application/x-www-form-urlencoded',
+        //     'Accept': 'application/json'
+        //   },
+        //   method: "POST",
+
+        //   success: function (res) {
+
+        //     console.log("运动步数+++++++++=========：：：：：：：：：：")
+        //     console.log(res)
+        //     console.log("++++++++++++sportSession+++++++++++++++")
+        //     console.log(wx.getStorageSync("sportSession"))
+        //     console.log("++++++++++++encryptedData+++++++++++++++")
+        //     console.log(wx.getStorageSync("encryptedData"))
+        //     console.log("++++++++++++++IIIIIIIIIVVVVVVVV+++++++++++++")
+        //     console.log(wx.getStorageSync("iv"))
+
+        //   }
+        // })
       }
     })
   },

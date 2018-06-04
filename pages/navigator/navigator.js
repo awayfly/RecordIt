@@ -10,20 +10,32 @@ Page({
    * 页面的初始数据
    */
   data: {
-    
-    imageid:""
+    stepCount: 0,
+    imageid: "",
+    calories: 0,
+    foodList: [{
+      "max": 10,
+      "average": 7.2,
+      "stars": "40",
+      "min": 0
+    }, {
+      "max": 10,
+      "average": 7.2,
+      "stars": "40",
+      "min": 0
+    }],
   },
   navbarTap: function (e) {
     this.setData({
       currentTab: e.currentTarget.dataset.idx
     })
-  } ,
-  charts:function(){
+  },
+  charts: function () {
     wx.navigateTo({
       url: '../charts/charts',
     })
   },
-  record:function(){
+  record: function () {
     wx.navigateTo({
       url: '../record/record',
     })
@@ -32,10 +44,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    this.StepCountNum();
   },
 
-  
+
   touchHandler: function (e) {
     this.updateData()
     console.log(ringChart.getCurrentDataIndex(e));
@@ -106,11 +118,99 @@ Page({
     setTimeout(() => {
       ringChart.stopAnimation();
     }, 500);
+
   },
 
+  
+/**
+ * 获取用户运动信息和运动量
+*/
 
+  StepCountNum: function () {
+    var that = this;
+    //获取运动步数
+    wx.request({
+      url: 'https://xprogram.hczzz.club/sport/sport',
+      data: {
+        data: wx.getStorageSync("encryptedData"),
+        session: wx.getStorageSync("sportSession"),
+        iv: wx.getStorageSync("iv"),
+      },
+      header: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'
+      },
+      method: "POST",
 
+      success: function (res) {
+        if(res.data === ""){
+          wx.showToast({
+            title: '点击脚步加载',
+            icon: 'loading'
+          })
+          return;
+        }
+        console.log(res)
 
+      that.setData({
+        stepCount: res.data.stepInfoList[30].step == null ? 0 : res.data.stepInfoList[30].step
+      })
+
+      },
+      fail:function(){
+        wx.showToast({
+          title: '检查网络连接',
+          icon:'loading'
+        })
+      }
+    })
+
+    //获取当日建议消耗能量
+    wx.request({
+      url: 'https://xprogram.hczzz.club/sport/user/suggest',
+      data: {
+        thirdSession: wx.getStorageSync("thirdSession")
+      },
+      header: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'
+      },
+      method: "POST",
+
+      success: function (res) {
+        if (res.data === "") {
+          wx.showToast({
+            title: '点击火焰加载',
+            icon:'loading'
+          })
+          return;
+        }
+        console.log(res.data)
+        that.setData({
+          calories: res.data.suggest
+        })
+      },
+      fail: function () {
+        wx.showToast({
+          title: '检查网络连接',
+          icon: 'loading'
+        })
+      }
+
+    })
+  },
+  /**
+   * 点击图片刷新
+   * 
+  */
+  stepRefresh: function (){
+    wx.showToast({
+      title: '加载中...',
+      icon:'loading'
+    })
+    this.StepCountNum();
+
+  },
 
 
 
@@ -157,41 +257,41 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-  
+
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-  
+
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+
   }
 })

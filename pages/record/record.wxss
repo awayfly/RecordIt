@@ -3,30 +3,31 @@
   display: flex;
   flex-direction: column;
 }
-
-.enterList{
-  display: inline-flex;
+.food-list{
   flex-direction: row;
-  justify-content: space-around; 
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.food-name food-calorie{
+  width: 100%;
+  height: 30px;
+  background-color: #edece8;
+}
+
+.text-margin{
+  height: 40px;
+  margin-top: 10px;
+}
+
+.submit-info{
+  position: fixed;
+  bottom: 0px;
   width: 100%;
 }
 
-image{
-  width: 70px;
+.food-list .weui-cells {
+  padding: 10px 15px
 }
 
-.center-line{
-  width: 100%;
-  height: 10px;
-  margin: 10px;
-  background-color: #e7e9fd;
-}
 
-.imageData{
-  flex-direction: column;
-}
-
-.imageSize{
-  widows: 60px;
-  height: 60px;
-}

@@ -41,9 +41,9 @@ function YMDteanstats(data) {////////////
 
   var time3 = (Date.parse(strtime)) / 1000;
 
-  let ll =time3 + 6 * 24 * 3600;
+  let ll = time3 + 6 * 24 * 3600;
   allData[0] = ll;
-  allData[1] =time3;
+  allData[1] = time3;
   for (let i = 0; i <= 9; i++) {
     let ll = time3 - i * 24 * 3600
     allData[i] = "\"" + ll + "\"";
@@ -70,14 +70,21 @@ function AutoYMDteanstats() {//////////////初始化时间
   let all = time3 + 6 * 24 * 3600;
   allData[0] = all;
   allData[1] = time3;
- 
+
 
   return allData;
 }
+
+
+function uploadFoodData() {
+
+}
+
 module.exports = {
   formatTime: formatTime,
   timetrans: timetrans,
   timetransYMD: timetransYMD,
   YMDteanstats: YMDteanstats,
-  AutoYMDteanstats: AutoYMDteanstats
+  AutoYMDteanstats: AutoYMDteanstats,
+  uploadFoodData: uploadFoodData
 }

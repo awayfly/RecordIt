@@ -40,10 +40,15 @@ Page({
             height: res.data.info.height == null ? 0.0 : res.data.info.height,
             age: res.data.info.age == null ? 0 : res.data.info.age,
             sexIndex: res.data.info.sex == null ? 0 : res.data.info.sex,
-            temp:res.data.info          
+            temp:res.data.info        
           }
         )
+        wx.setStorage({
+          key: 'weight',
+          data: that.weight,
+        })
       }
+      
     })
   },
 

@@ -5,41 +5,85 @@ page {
   flex-direction: column;
   height: 100%;
 }
-.ringCanvas{
-   flex-direction: row;
-   /* background-image:"/../../image/image.jpg"; */
+
+.ringCanvas {
+  flex-direction: row;
+  /* background-image:"/../../image/image.jpg"; */
 }
-.enterList{
+
+.enterList {
   width: 100%;
   display: inline-flex;
   margin-top: 30px;
+  margin-bottom: 20px;
   flex-direction: row;
   justify-content: space-around;
 }
-image{
+
+image {
   width: 70px;
 }
-.imageData{
+
+.imageData {
   flex-direction: column;
 }
-.imageList{
+
+.imageList {
   flex-direction: column;
   align-items: center;
 }
 
-.imageSize{
+.imageSize {
   widows: 40px;
   height: 40px;
 }
 
-.center-line{
+.center-line {
   text-align: center;
 }
 
-.content-text{
+.content-text {
   font-size: 12px;
 }
 
-.canvas{
+.canvas {
   height: 200px;
+}
+
+.info-history {
+  display: flex;
+  flex-direction: column;
+   margin-left: 15px; 
+  width: 100%;
+}
+
+.sport-data-list{
+  display: inline-flex;
+  flex-direction: row;
+  width: 100%;
+  
+}
+
+.info-list1 {
+  display: inline-flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100px;
+}
+
+.info-image-list{
+  margin: 10px;
+  width: 60px;
+  height: 60px;
+}
+
+.info-text {
+   flex-direction: column; 
+  width: 60%;
+  height: 80px;
+  margin-top: 10px;
+}
+
+.info-text-list{
+  font-size: 10px;
 }

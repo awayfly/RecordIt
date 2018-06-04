@@ -2,9 +2,10 @@ var starRun = 0;
 var countOne = 0;
 var countTwo = 0;
 var time_count = 0;
-var select_time = 0.1;
+var select_time = 0;
 var select_time_min = 0;
 var oriMeters = 0.0;
+var showMeters = 0;
 
 function data_update(that) {
 
@@ -18,9 +19,10 @@ function data_update(that) {
     var time = date_format(countTwo)
     that.updateTime(time)
   }
-  if (countOne % 500 == 0)
+  if (countOne % 2000 == 0) {
     that.getLocation()
-
+    that.CaloriesCount(countTwo)
+  }
   setTimeout(function () {
 
     countOne += 10;
@@ -30,7 +32,7 @@ function data_update(that) {
       starRun = 0;
       wx.showToast({
         title: '预设目标达成！！！',
-        icon:'success',
+        icon: 'success',
       })
       return;
     }
@@ -92,9 +94,13 @@ Page({
 
   onLoad: function (options) {//初始化化界面
 
+
     var that = this
     wx.getLocation({
       success: function (res) {
+
+        console.log("位置")
+        console.log(res.latitude + "   LLLL   " + res.longitude)
         that.setData({
           accuracy: res.accuracy
         })
@@ -125,7 +131,7 @@ Page({
     })
 
   },
-  resetRun: function () {
+  resetRun1: function () {
     var that = this;
     starRun = 0;
     countOne = 0;
@@ -135,7 +141,28 @@ Page({
       speed: 0.00,
       usetime: '00:00:00',
       away: 0.00,
-      accuracy: 0.0
+      accuracy: 0.0,
+      Calories: 0
+    })
+  },
+
+  resetRun: function () {
+    var that = this;
+    wx.showModal({
+      title: '确认重置？',
+      content: '',
+      success: function (res) {
+        if (res.confirm) {
+          that.resetRun1();
+          wx.showToast({
+            title: '重置成功',
+          })
+        } else {
+          wx.showToast({
+            title: '未重置',
+          })
+        }
+      }
     })
   },
 
@@ -195,13 +222,13 @@ Page({
 
 
         var meters = new Number(oriMeters);
-        // console.log("meters----------")
-        // console.log(meters);
-        var showMeters = meters.toFixed(2);
+         console.log("meters----------")
+         console.log(meters);
+        showMeters = meters.toFixed(2);
 
 
         that.setData({
-          speed: ((res.speed) * 3.6).toFixed(2) < 0 ? "0.00" : ((res.speed) * 3.6).toFixed(2),
+          speed: ((res.speed) * 3.6).toFixed(2) < 0 ? 0.00 : ((res.speed) * 3.6).toFixed(2),
           accuracy: (res.accuracy).toFixed(1),
           postion: oriCovers,
           away: showMeters
@@ -231,6 +258,24 @@ Page({
       starRun = 0;
       return;
     }
+  },
+
+  CaloriesCount: function (countTwo1) {/*计算卡路里量，通过体重、运动距离、系数值，计算运动消耗的能量*/
+    var that = this
+    var distance = showMeters > 0 ? 0 : showMeters;//运动距离km
+    console.log(distance)
+    console.log("距离")
+    console.log(showMeters)
+    var timeUse = countTwo1 / 60000;//使用时间 s
+    var hour = countTwo1 / 3600000;
+    var weight = wx.getStorageSync("weight") == 0 ? 60 : wx.getStorageSync("weight");
+    console.log(weight)
+    // var averageSpeed = distance / 
+    var Calories1 = weight * distance * 1.036;
+    console.log(weight * distance)
+    that.setData({
+      Calories: Calories1.toFixed(2) < 0 ? 0 : Calories1.toFixed(2),
+    })
   },
 
 })

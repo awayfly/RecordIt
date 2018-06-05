@@ -119,15 +119,15 @@ Page({
         
 
           for (let i = 0; i < 7; i++) {
-            if (res.data.data[i] == null)
-              break;
-            let count = 0;
-            for (let j = 0; j < 3; j++) {
+            // if (res.data.data[i] == null)
+            //   break;
+            // let count = 0;
+            // for (let j = 0; j < 3; j++) {
               
-              count += res.data.data[i].dishs[j].amount * res.data[i].dishs[j].calories;
-            }
-            intakeK[i] = count;
-            consumptionK[i] = res.data[i].sport.heat;
+            //   count += res.data.data[i].dishs[j].amount * res.data[i].dishs[j].calories;
+            // }
+            // intakeK[i] = count;
+            // consumptionK[i] = res.data[i].sport.heat;
             timesstampsK[i] = timeTrans.timetransYMD(res.data[i].date);//将时间戳转化为YMD格式
           }
 

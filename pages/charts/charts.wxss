@@ -11,3 +11,7 @@
 .updateData{
   margin-top: 40rpx;
 }
+
+.weui-cells {
+  padding: 10px 15px
+}

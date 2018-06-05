@@ -4,12 +4,14 @@
   </view>
   <view>
     <view class="section">
-      <view class="section__title">开始时间(最多加载7天数据)</view>
+      <view class="section__title weui-cells__title">开始时间(最多加载7天数据)</view>
+      <view class="weui-cells weui-cells_after-title">
       <picker mode="date" value="{{dataYMDStar}}" start="2018-05-01" bindchange="bindDateChange1">
         <view class="picker">
           起始日期: {{dataYMDStar}}
         </view>
       </picker>
+    </view>
     </view>
 
     <button type="primary" class='updateData' bindtap="updateData">更新数据</button>

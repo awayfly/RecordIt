@@ -97,6 +97,7 @@ Page({
 
     var that = this
     wx.getLocation({
+      type: 'wgs84',
       success: function (res) {
 
         console.log("位置")

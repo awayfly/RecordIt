@@ -60,13 +60,11 @@ function AutoYMDteanstats() {//////////////初始化时间
   myDate.getDate();
   var newData = myDate.getFullYear() + "-" + (myDate.getMonth() + 1) + "-" + myDate.getDate() + ' 00:00:00'
 
-  console.log("newData++++++:" + newData)
 
   var strtime = newData;
   let allData = [];
 
   var end = (Date.parse(strtime)) / 1000;
-  console.log("time3++++++:" + end)
   let star = end - 6 * 24 * 3600;
   allData[0] = star;
   allData[1] = end;

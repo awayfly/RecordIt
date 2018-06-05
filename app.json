@@ -1,11 +1,11 @@
 {
   "pages": [
-    "pages/charts/charts",
     "pages/navigator/navigator",
+    "pages/homepage/homepage",
+    "pages/charts/charts",
     "pages/record/record",
     "pages/index/index",
     "pages/logs/logs",
-    "pages/homepage/homepage",
     "pages/homepage/userInfo/userInfo",
     "pages/info/info"
   ],

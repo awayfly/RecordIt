@@ -1,2 +1,21 @@
-<!--pages/homepage/userInfo/userInfo.wxml-->
-<text>pages/homepage/userInfo/userInfo.wxml</text>
+<view class="page">
+  <view class="page__hd">
+    <view class='info-container'>运动目标</view>
+  </view>
+  <form bindsubmit='bindDateChange'>
+    <view class="page__bd">
+      <view class="weui-cells__title">步数目标</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">步数</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" bindinput='disabled' maxlength="5"  name="aimsStep"  placeholder="请输入目标" value = "{{aimsStep}}"/>
+          </view>
+        </view>
+      </view>
+      <button type="primary" class='buttonLogin weui-btn' form-type='submit' disabled="{{!disabled}}">提交修改</button>
+    </view>
+  </form>
+</view>

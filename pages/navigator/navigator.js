@@ -14,17 +14,12 @@ Page({
     imageid: "",
     calories: 0,
     aimsStep: 0,
-    foodList: [{
-      "max": 10,
-      "average": 7.2,
-      "stars": "40",
-      "min": 0
-    }, {
-      "max": 10,
-      "average": 7.2,
-      "stars": "40",
-      "min": 0
-    }],
+    headShowPoint:'',
+    foodList: [],
+    recordList:false,
+    pushFoodName:"",
+    pushFoodCalories:"",
+    pushData:false
   },
   navbarTap: function (e) {
     this.setData({
@@ -47,15 +42,33 @@ Page({
   onLoad: function (options) {
     var that = this;
     var aimsStep = wx.getStorageSync("aimsStep") === null || wx.getStorageSync("aimsStep") === "" ? 0 : wx.getStorageSync("aimsStep");
-    that.StepCountNum();
-
+    
     that.setData({
       aimsStep: aimsStep,
     })
 
     console.log("缓存中的用户今日食物信息")
     console.log(wx.getStorageSync("headShow"))
+    
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        wx.setStorage({
+          key: 'latitude',
+          data: res.latitude,
+        })
 
+        wx.setStorage({
+          key: 'longitude',
+          data: res.longitude,
+        })
+        console.log(res.latitude + "   LLLL   " + res.longitude)
+      },
+    })
+
+    that.StepCountNum();
+    that.headShowInfo();
+    that.getReference();
 
   },
 
@@ -75,10 +88,12 @@ Page({
           }
         }
       })
+      return;
     }
 
     this.onLoad();
     this.onReady();
+    this.headShowInfo();
 
     // var tit = ringChart.getCurrentDataIndex(e);
     wx.showToast({
@@ -168,7 +183,7 @@ Page({
       padding: 0
     });
     ringChart.addEventListener('renderComplete', () => {
-      console.log('renderComplete');
+      // console.log('renderComplete');
     });
     setTimeout(() => {
       ringChart.stopAnimation();
@@ -206,6 +221,11 @@ Page({
           return;
         }
         console.log(res)
+
+        wx.setStorage({
+          key: 'recentStep',
+          data: res.data.stepInfoList,
+        })
 
         var stepToDay = res.data.stepInfoList[30].step == null ? 0 : res.data.stepInfoList[30].step
         wx.setStorage({
@@ -273,11 +293,104 @@ Page({
 
   },
 
+  recentStep:function(){
+    wx.navigateTo({
+      url: '../recentStep/recentStep',
+    })
+  },
+/**
+ * 初始化加载用户当日记录的饮食信息
+ * 
+*/
+headShowInfo:function(){
+  var that = this;
+  var headShow = wx.getStorageSync("headShow") === "" ? {
+    "timestamp": "",
+    "imageId": "",
+    "tempFilePaths": "",
+    "foodName": "",
+    "calories": "",
+  } : wx.getStorageSync("headShow");
+  if (wx.getStorageSync("headShow") === ""){
+    that.setData({
+      recordList:true
+    })
+
+    return;
+  }
+
+  console.log("主页加载的信息")
+  console.log(wx.getStorageSync("headShow"))
+  console.log(headShow)
+
+  var timestampFood;
+  var timestampNow = timeTrans.AutoYMDteanstats();
+  var timestampNowValue = timestampNow[1];
+  var newHeadShow = [];
+  var j = 0;
+  for (var i = 0; i < headShow.length; i++){
+    
+    if (headShow[i].timestamp === timestampNowValue){
+      
+      newHeadShow[j] = headShow[i];
+      j++;
+    }
+  }
+
+  that.setData({
+    foodList: newHeadShow,
+  })
+  console.log(that.data.foodList)
+
+},
+
+  jumpRecord:function(){
+    wx.navigateTo({
+      url: '../record/record',
+    })
+
+  },
 
 
+  getReference:function(){
+   var that = this
+    var latitude = wx.getStorageSync("latitude");
+    var longitude = wx.getStorageSync("longitude");
+    
 
+    wx.request({
+      url: 'https://xprogram.hczzz.club/sport/user/getReference',
+      data: {
+        thirdSession: wx.getStorageSync("thirdSession"),
+        latitude: latitude,
+        longitude:longitude
+      },
+      header: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'
+      },
+      method: "POST",
+      success:function(res){
+        console.log("获取推荐信息")
+        console.log(res)
+        var refer = res.data.refer;
+        if(refer === null){
+          that.setData({
+            pushData:true,
+          })
+          return;
+        }
+        console.log(refer)
+        var con = JSON.parse(refer)
+        console.log(con.dishs[0].dishName)
+        that.setData({
+          pushFoodName: con.dishs[0].dishName,
+          pushFoodCalories: con.dishs[0].calories
+        })
 
-
+      }
+    })
+  },
 
 
 
@@ -339,7 +452,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    wx.stopPullDownRefresh();
   },
 
   /**

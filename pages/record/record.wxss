@@ -1,33 +1,47 @@
 /* pages/record/record.wxss */
-.containerC{
+
+.containerC {
   display: flex;
   flex-direction: column;
 }
-.food-list{
+
+.food-list {
   flex-direction: row;
   width: 100%;
-  background-color: #ffffff;
+  background-color: #fff;
 }
 
-.food-name food-calorie{
+.backgroungColor {
+  font-family: "黑体";
+  font-size: 20px;
+  width: 100%;
+  height: 240px;
+  background-color: #d0d9ff;
+}
+
+.backginfo-text {
+  position: fixed;
+  margin-top: 100px;
+  margin-left: 30%;
+}
+
+.food-name food-calorie {
   width: 100%;
   height: 30px;
   background-color: #edece8;
 }
 
-.text-margin{
+.text-margin {
   height: 40px;
   margin-top: 10px;
 }
 
-.submit-info{
+.submit-info {
   position: fixed;
   bottom: 0px;
   width: 100%;
 }
 
 .food-list .weui-cells {
-  padding: 10px 15px
+  padding: 10px 15px;
 }
-
-

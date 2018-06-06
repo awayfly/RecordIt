@@ -1,10 +1,12 @@
 <view class='containerC'>
-
+  <view class='backgroungColor' bindtap="chooseimage">
+  
+   <text wx:if="{{tempFilePaths === null}}" class='backginfo-text'>快给我食物我认得它呦</text>
+    <image wx:if="{{!(tempFilePaths === null)}}" src='{{tempFilePaths}}'  style="width:100%;"></image>
+  </view>
   <form bindsubmit='bindsubmitTap'>
-    <image src='{{tempFilePaths}}' bindtap="chooseimage" style="width:100%;"></image>
-    <view wx:for="{{[1,2]}}" wx:for-item="j">
 
-    </view>
+
     <view wx:if="{{count === 1}}">
       <text class="weui-cells__title">请选择描述相似度最高的食物</text>
     </view>
@@ -20,7 +22,7 @@
             <radio value="{{index}}" />
           </label>
           <text class='food-name' value="{{item.name}}">{{item.name}},</text>
-          <text class='food-calorie' value="{{item.calorie}}"> 能量(/100g): {{item.calorie}}</text>
+          <text class='food-calorie' value="{{item.calorie}}"> 能量(/100g): {{item.calorie}}千卡</text>
         </view>
 
       </view>
@@ -38,7 +40,7 @@
       </view>
     </view>
     <view wx:if="{{count === 1}}">
-      <button form-type='submit' class='submit-info'>提交</button>
+      <button form-type='submit' class='submit-info'>保存</button>
     </view>
   </form>
 </view>

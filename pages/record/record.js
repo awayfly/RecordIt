@@ -12,12 +12,12 @@ Page({
     time: "7:00",
 
     foodList: [],
-    headShow:[],
-    imageid:'',
-    calories:'',
-    imageLink:'',
+    headShow: [],
+    imageid: '',
+    calories: '',
+    imageLink: '',
 
-    primaryKey:"",
+    primaryKey: "",
     food: "",
     count: 0,
     countList: "",
@@ -33,7 +33,8 @@ Page({
   onLoad: function (options) {
     var that = this;
     that.setData({
-      tempFilePaths: '../../image/foodBack.png',
+      // tempFilePaths: '../../image/imagefood.png',
+      tempFilePaths:null,
       foodList: [],
       count: 0,
     })
@@ -95,7 +96,7 @@ Page({
 
     /**获取用户体貌信息*/
     wx.request({
-      url: 'https://xprogram.hczzz.club/sport/user', 
+      url: 'https://xprogram.hczzz.club/sport/user',
       data: {
         thirdSession: wx.getStorageSync("thirdSession")
       },
@@ -130,6 +131,12 @@ Page({
 
     })
 
+    wx.showToast({
+      title: '提交中...',
+      icon:'loading',
+      duration:2000
+    })
+
     //
     var latitude = wx.getStorageSync("latitude") === null ? 0 : wx.getStorageSync("latitude");
     var longitude = wx.getStorageSync("longitude") === null ? 0 : wx.getStorageSync("longitude");
@@ -146,14 +153,14 @@ Page({
 
     var timeNew = timeTrans.AutoYMDteanstats();
     var timeNewValue = timeNew[1];
-    var timestratampValue = primaryKeyData.timestratamp === "" ? "" : primaryKeyData.timestratamp;
-    var primaryKeyValue ;
-    
-    if (timeNewValue === timestratampValue){
+    var timestratampValue = primaryKeyData.timestratamp;
+    var primaryKeyValue;
+
+    if (timeNewValue === timestratampValue) {
       primaryKeyValue = primaryKeyData.primaryKey;
       console.log("当天的主键有主键的时候-->>")
       console.log(primaryKeyValue)
-    }else{
+    } else {
       primaryKeyValue = "";
     }
     console.log("当天的主键-->>")
@@ -163,7 +170,7 @@ Page({
     console.log("获取当前图片的id");
     console.log(imageid)
     console.log(that.data.imageid)
-    
+
 
     var heat = step * stepLength / 10000 * weight;
     var timestamp = timeTrans.AutoYMDteanstats();/**获取当前日期的时间戳，不包括时分秒*/
@@ -171,33 +178,25 @@ Page({
     console.log("存储在数组中的食物信息")
     console.log(foodData);
     var jsonString = {
-      "date": timestamp[1], "dishs": [{ "dishName": foodData.name, "amount": weightValue, "calories": foodData.calorie, "imageid": imageid}], "sport": {
+      "date": timestamp[1], "dishs": [{ "dishName": foodData.name, "amount": weightValue, "calories": foodData.calorie, "imageid": imageid }], "sport": {
         "step": step, "heat": heat
       }, "latitude": latitude, "longitude": longitude
     }
 
     var data11 = JSON.stringify(jsonString);
     console.log("json化后的数据");
-    console.log(data11)
+    console.log(data11);
     /**
      * 将当天上传信息存储在缓存中，在主页加载
      * 
     */
+    
     var tempFilePaths = that.data.tempFilePaths;
-    var headShow = {
-      "timestamp": timeNewValue,
-      "imageid": imageid,
-      "tempFilePaths": tempFilePaths,
-      "foodName": foodData.name,
-      "calories": foodData.calorie,
-      "weight": weightValue}
-    console.log("存入缓存的食物信息用于主页");
-    console.log(headShow)
+    that.firstPageFoodInfo(timeNewValue, imageid, tempFilePaths, foodData.name, foodData.calorie, weightValue);
+    
 
-      wx.setStorage({
-        key: 'headShow',
-        data: headShow,
-      })
+
+
 
     wx.request({
       url: 'https://xprogram.hczzz.club/sport/info',
@@ -219,7 +218,7 @@ Page({
           })
 
           that.onLoad();
-        }else{
+        } else {
           wx.showToast({
             title: '请重新提交',
           })
@@ -231,7 +230,7 @@ Page({
         var primaryKey = res.data.id;
         var timestratampKey = timeTrans.AutoYMDteanstats();
         var timestratamp = timestratampKey[1];
-        var primaryKeyData = { "primaryKey": primaryKey, "timestratamp": timestratamp}
+        var primaryKeyData = { "primaryKey": primaryKey, "timestratamp": timestratamp }
 
         console.log("存储时主键的值-->>")
         console.log(primaryKeyData)
@@ -242,7 +241,7 @@ Page({
           key: 'primaryKeyData',
           data: primaryKeyData,
         })
-        
+
       },
     })
 
@@ -279,12 +278,12 @@ Page({
           name: 'file',
           formData: {
             'thirdSession': SessionKey,
-            "id":''
+            "id": ''
           },
           success: function (res) {
 
-            
-            
+
+
 
             var data0 = JSON.parse(res.data);
 
@@ -314,7 +313,7 @@ Page({
 
 
             var data1 = JSON.parse(res.data).data;
-          
+
 
             var results = JSON.parse(data1);
             console.log("请求返回食物信息")
@@ -347,7 +346,7 @@ Page({
             console.log(res)
           }
         })
-        
+
       }
     })
   },
@@ -380,6 +379,61 @@ Page({
       }
 
     })
+  },
+/**
+ * 存储食物信息到缓存中，并过滤掉之前的的信息，只保存当天的信息,
+ * 
+*/
+  firstPageFoodInfo: function (timeNewValue, imageid, tempFilePaths, name, calorie, weightValue){
+    
+    var headShow = [];
+
+    headShow = wx.getStorageSync("headShow");
+    var headShowLength = headShow.length;
+    console.log("headShowLength初始长度")
+    console.log(headShowLength)
+    if (headShowLength > 0) {
+
+      headShow[headShowLength] = {
+        "timestamp": timeNewValue,
+        "imageid": "https://xprogram.hczzz.club/sport/file/?imgId="+imageid,
+        "tempFilePaths": tempFilePaths,
+        "foodName": name,
+        "calories": calorie,
+        "weight": weightValue
+      }
+
+    } else {
+      headShow = [];
+      headShow[headShowLength] = {
+        "timestamp": timeNewValue,
+        "imageid": "https://xprogram.hczzz.club/sport/file/?imgId="+imageid,
+        "tempFilePaths": tempFilePaths,
+        "foodName": name,
+        "calories": calorie,
+        "weight": weightValue
+      }
+    }
+
+    var headShowOneDay=[];
+    var newHeadShow = [];
+    var j = 0;
+    for (var i = 0; i < headShow.length; i++) {
+
+      if (headShow[i].timestamp === timeNewValue) {
+
+        newHeadShow[j] = headShow[i];
+        j++;
+      }
+    }
+
+    console.log("存入缓存的食物信息用于主页");
+    console.log(headShow);
+    wx.setStorage({
+      key: 'headShow',
+      data: newHeadShow,
+    })
+
   },
 
   /**

@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/navigator/navigator",
+    "pages/recentStep/recentStep",
     "pages/homepage/homepage",
     "pages/charts/charts",
     "pages/record/record",
@@ -13,7 +14,8 @@
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "演示",
     "navigationBarBackgroundColor": "#d0d9ff",
-    "backgroundColor": "#d0d9ff"
+    "backgroundColor": "#d0d9ff",
+    "enablePullDownRefresh": true
   },
   "tabBar": {
     "color": "#95A9F8",

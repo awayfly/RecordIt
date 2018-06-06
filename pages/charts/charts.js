@@ -9,7 +9,8 @@ Page({
     intake: [],//摄入量/天
     consumption: [],//运动量/天
     RecAmount: [],//推荐量/天
-    timesstamps: [],//时间戳
+    Alltimes: [],//时间戳
+    allSpoetData: [],
     allData: [],
     dataYMDStar: null,
     dataYMDEnd: ""
@@ -24,13 +25,14 @@ Page({
     });
   },
   createSimulationData: function () {
+    var that = this;
+    var AlltimesAAA = that.data.Alltimes;
     var categories = [];
     var data = [];
-    for (var i = 0; i < 1; i++) {
-      for (var j = 0; j < 10; j++) {
-        categories.push('2018-' + (i + 1) + "-" + (j + 1));
-        data.push(Math.random() * (20 - 10) + 10);
-      }
+    for (var i = 0; i < AlltimesAAA.length; i++) {
+      categories.push(AlltimesAAA[i]);
+      data.push(Math.random() * (20 - 10) + 10);
+
     }
     // data[4] = null;
     return {
@@ -52,8 +54,8 @@ Page({
   /*页面初始化
   */
   onLoad: function (e) {
+    this.RequestEnergy(1);
 
-    this.DrawCharts(1);
   },
   /**
    * 用户选择起始时间
@@ -97,7 +99,6 @@ Page({
     }
     console.log("allDate:+++++" + allDate)
 
-
     wx.request({/*请求获取图表信息 运动量 摄入量 时间戳*/
       url: 'https://xprogram.hczzz.club/sport/info',
       data: {
@@ -112,64 +113,119 @@ Page({
       },
       method: "GET",
       success: function (res) {
-        var consumptionK = [];//
-        var intakeK = [];
-        var timesstampsK = [];
-
-        
-
-          for (let i = 0; i < 7; i++) {
-            // if (res.data.data[i] == null)
-            //   break;
-            // let count = 0;
-            // for (let j = 0; j < 3; j++) {
-              
-            //   count += res.data.data[i].dishs[j].amount * res.data[i].dishs[j].calories;
-            // }
-            // intakeK[i] = count;
-            // consumptionK[i] = res.data[i].sport.heat;
-            timesstampsK[i] = timeTrans.timetransYMD(res.data[i].date);//将时间戳转化为YMD格式
-          }
-
-        console.log(res)
-        that.setData({
-          consumption: consumptionK,//运动量/天
-          intake: intakeK,//摄入量
-          timesstamps: timesstampsK//时间戳
-        })
-      }
-
-    })
-
-    wx.request({/*请求推荐运动量*/
-      url: 'https://xprogram.hczzz.club/sport/user/suggest',
-      data: {
-        thirdSession: wx.getStorageSync("thirdSession")
-      },
-      header: {
-        'content-type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'
-      },
-      method: "POST",
-      success: function (res) {
-        console.log(res.data.message + "KKKKKKK")
-        console.log(res.data.suggest + "请求推荐运动量")
-        var RecAmountK = [];
-        for (let i = 0; i < 10; i++) {
-          RecAmountK = res.data.suggest
+        if (res.data.flag === false) {
+          wx.showToast({
+            title: '加载失败',
+            image: '../../image/error.png.svg'
+          })
+          return;
         }
+        var startTime = allDate[0];//
+        var endTime = allDate[1];
+        var timeAdd = 24 * 60 * 60;
+        var AllTime = [];
+        var allSpoetData = [];
+        for (var j = 0; j < 7; j++) {
+          if (j === 0) {
+            AllTime[j] = allDate[0];
+            break;
+          }
+          if (j === 6) {
+            AllTime[j] = allDate[1]
+          }
+          AllTime[j] = startTime + timeAdd;
+          timeAdd = timeAdd * j;
+        }
+
+        var dataList = res.data.data;
+        console.log("dataList>>>>>>>>>>>>>>>")
+        console.log(dataList)
+
+
+        var timeIn;
+        var l = 0;
+        for (var k = allDate[0]; k <= endTime;) {
+          timeIn = timeTrans.timetransYMD(k * 1000);
+          if (dataList[k] === null) {
+
+            allSpoetData[l] = { "data": timeIn, "FoodAllcalories": 1, "StepCalories": 1 };
+          }
+          if (!(dataList[k] === null)) {
+            var stri = dataList[k];
+            stri = JSON.stringify(stri)
+            stri = JSON.parse(stri);
+
+            var weight = stri.user.weight
+            stri = JSON.parse(stri.info);
+            var step = stri.sport.step;
+            console.log(stri)
+            console.log(stri.dishs)
+
+            var FoodAllcalories = 0;
+            for (var m = 0; m < stri.dishs.length; m++) {
+              console.log("stri.dishs[m].amount的值")
+              console.log(stri.dishs[m].amount)
+              var FoodAmount;
+              FoodAmount = stri.dishs[m].amount === null || stri.dishs[m].amount === undefined ? 100 : stri.dishs[m].amount;
+              FoodAmount = parseInt(FoodAmount)
+              FoodAmount = FoodAmount.toFixed(1);
+              console.log(FoodAmount)
+              FoodAllcalories = FoodAllcalories + stri.dishs[m].calories * FoodAmount / 100;
+              FoodAllcalories = FoodAllcalories.toFixed(1);
+              console.log(FoodAllcalories)
+            }
+            var StepCalories;
+
+            var stepLength = 65;
+            StepCalories = 65 * step / 100000 * weight * 0.8214;
+
+
+            allSpoetData[l] = { "data": timeIn, "FoodAllcalories": FoodAllcalories, "StepCalories": StepCalories };
+          }
+          l++;
+          k = k + timeAdd;
+        }
+
+        var intake = [];//摄入量/天
+        var consumption = [];//运动量/天
+        var AlltimesAAA = [];//时间戳
+
+        for (var n = 0; n < allSpoetData.length; n++) {
+
+          intake[n] = allSpoetData[n].FoodAllcalories;
+          consumption[n] = allSpoetData[n].StepCalories;
+          AlltimesAAA[n] = allSpoetData[n].data;
+
+        }
+
+        console.log("过滤后的用户数据")
+        console.log(allSpoetData);
+
         that.setData({
-          RecAmount: RecAmountK
+          allSpoetData: allSpoetData,
+          consumption: consumption,//运动量/天
+          intake: intake,//摄入量
+          Alltimes: AlltimesAAA//时间戳
         })
+
+        for (var v = 0; v < 1; v++) {
+          if (num === 1) {
+            that.DrawCharts(1);
+          }
+        }
       }
+
     })
+
+
   },
   /**
    * 图表加载选择配置
   */
   DrawCharts: function (num) {
+    var that = this;
     if (num == 1) {
-      this.RequestEnergy(num);/*默认加载日期的数据*/
+      // this.RequestEnergy(num);/*默认加载日期的数据*/
     } else if (num == 2) {
       this.RequestEnergy(num);/*默认加载日期的数据*/
     } else {
@@ -187,28 +243,24 @@ Page({
     }
 
     var simulationData = this.createSimulationData();
+    var con = that.data.consumption;
+    var intt = that.data.intake;
+    console.log(con + " 图表更新数据 " + intt)
     lineChart = new wxCharts({
       canvasId: 'lineCanvas',
       type: 'line',
       categories: simulationData.categories,
       animation: true,
-      // background: '#f5f5f5',
+      // background: '#f5f5f5',  
       series: [{
         name: '摄入量',
-        data: simulationData.data,//this.data.intake,//
+        data: intt,//simulationData.data,//that.data.intake,//
         format: function (val, name) {
           return val.toFixed(2) + '千卡';
         }
       }, {
         name: '运动量',
-        data: [2, 30, 0, 3, null, 4, 0, 0, 2, 0],//this.data.consumption,//
-        format: function (val, name) {
-          return val.toFixed(2) + '千卡';
-        }
-      },
-      {
-        name: '推荐量',
-        data: this.data.RecAmount,//[2, 1, 2, 3, 4, 4, 0, 0, 2, 0],//
+        data: con,//[2, 30, 0, 3, null, 4, 0, 0, 2, 0],//that.data.consumption,//
         format: function (val, name) {
           return val.toFixed(2) + '千卡';
         }

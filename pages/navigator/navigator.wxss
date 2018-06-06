@@ -87,3 +87,30 @@ image {
 .info-text-list{
   font-size: 10px;
 }
+.foodImageList{
+  width:70px;
+  height:70px;
+  /* border: 1px 0em #f0f0f0; */
+}
+
+.weui-cells1{
+  display: inline-flex;
+  flex-direction: row;
+}
+
+.weui-cells13{
+  width: 100%;
+}
+
+.foodNameList {
+  font-size: 20px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.foodCaloriesList{
+  margin-right: 10px;
+  margin-left: 10px;
+  font-size: 15px;
+  margin-bottom: 0px;
+}

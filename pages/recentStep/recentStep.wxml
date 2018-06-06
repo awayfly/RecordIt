@@ -1,0 +1,18 @@
+<view class='container1'>
+  <view class='background'>
+    <view class="userinfo" style='ba'>
+      <open-data type="userAvatarUrl" class='open-data'></open-data>
+    </view>
+  </view>
+
+  <view class="weui-cells__title">近30天运动数据</view>
+  <view wx:for="{{recentStep}}" class='food-items'>
+    <view class="weui-cells weui-cells_after-title">
+      <view class='weui-cells1'>
+
+        <text class='foodImageList'>{{item.timestamp}} </text>
+        <text class='foodNameList'>{{item.step}}步</text>
+      </view>
+    </view>
+  </view>
+</view>

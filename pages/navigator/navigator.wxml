@@ -7,10 +7,10 @@
   <view class='enterList'>
     <view class=' imageList ' bindtap='charts'>
       <view class='imageData'>
-        <image src=' ../../image/bar-chart.svg ' class='imageSize' />
+        <image src=' ../../image/comparison.svg ' class='imageSize' />
       </view>
       <view class='center-line'>
-        <text class='content-text'>曲线</text>
+        <text class='content-text'>折线</text>
       </view>
     </view>
     <view class=' imageList ' bindtap='record'>
@@ -21,12 +21,12 @@
         <text class='content-text'>记录</text>
       </view>
     </view>
-    <view class=' imageList '>
+    <view class=' imageList ' bindtap='recentStep'>
       <view class='imageData'>
         <image src=' ../../image/nearby.svg ' class='imageSize' />
       </view>
       <view class='center-line'>
-        <text class='content-text'>附近</text>
+        <text class='content-text'>30天</text>
       </view>
     </view>
   </view>
@@ -42,7 +42,7 @@
             <view>
               <text class='info-text-list'>今日步数</text>
             </view>
-            <view>
+            <view bindtap='stepRefresh'>
               <text>{{stepCount}}</text>
             </view>
           </view>
@@ -56,25 +56,60 @@
             <view>
               <text class='info-text-list'>推荐消耗能量</text>
             </view>
-            <view>
-              <text>{{calories}}千卡</text>
+            <view bindtap='stepRefresh'>
+              <text>{{calories}} <text style='font-size:10px;'>千卡</text></text>
             </view>
           </view>
         </view>
       </view>
     </view>
 
-    <view class="weui-cells weui-cells_after-title">
-      <view class='food-data-list'>
-        <view wx:for="{{foodList}}" class='food-items'>
-          <text>{{item.max}}  </text>
-          <text>{{item.average}}  </text>
-          <text>{{item.starts}}  </text>
-          <text>{{item.min}}  </text>
-        </view>
 
+    <view class='food-data-list'>
+      <view class="weui-cells__title">今天记录的食物</view>
+
+      <view class="weui-cells weui-cells_after-title">
+        <view wx:if="{{!recordList}}">
+          <view wx:for="{{foodList}}" class='food-items'>
+            <view class="weui-cells   ">
+              <view class='weui-cells1'>
+                <image src='{{item.tempFilePaths}}' class='foodImageList'> </image>
+                <view class='weui-cells12'>
+                  <text class='foodNameList'>{{item.foodName}}</text>
+                  <view class='weui-cells13'>
+                    <text class='foodCaloriesList'>{{item.weight}}g</text>
+                    <text style='font-size:10px;'>大约</text>
+                    <text class='foodCaloriesList'>{{item.weight*item.calories/100}}</text>
+                    <text style='font-size:10px;'>千卡</text>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
       </view>
     </view>
+    <view wx:if="{{recordList}}">
+      <text bindtap='jumpRecord' style='margin-left:50px;-webkit-text-fill-color: #dae1fe;'>今天有什么美食快点我分享给我吧~</text>
+    </view>
+
+
+    <view class="weui-cells__title">美食日推</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view wx:if="{{!pushData}}">
+        <text class='foodNameList'>{{pushFoodName}}</text>
+        <text class='foodNameList'>{{pushFoodCalories}}</text><text style='font-size:10px;'>千卡/100g</text>
+
+      </view>
+
+      <view wx:if="{{pushData}}">
+      <text bindtap='jumpRecord' style='margin-left:30px;-webkit-text-fill-color: #dae1fe;'>(⊙﹏⊙),我还没有智商，快喂我食物，
+      让我变聪明...</text>
+      </view>
+    </view>
+
+
+
 
   </view>
 </view>

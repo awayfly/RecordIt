@@ -93,7 +93,9 @@ Page({
 
     this.onLoad();
     this.onReady();
-    this.headShowInfo();
+    wx.navigateTo({
+      url: '../navigator/navigator',
+    })
 
     // var tit = ringChart.getCurrentDataIndex(e);
     wx.showToast({

@@ -1,5 +1,5 @@
 <view class='headPage'>
-  <view class="ringCanvas" style='background-image:url("../../image/image.jpg");background-repeat: repeat no-repeat;'>
+  <view class="ringCanvas" style='background-image:url(https://xprogram.hczzz.club/sport/file/?imgId=297ebc2d63d417590163d7bd10290009);background-repeat: repeat no-repeat;'>
     <canvas canvas-id="ringCanvas" class="canvas" bindtouchstart="touchHandler"></canvas>
 
   </view>
@@ -10,7 +10,7 @@
         <image src=' ../../image/comparison.svg ' class='imageSize' />
       </view>
       <view class='center-line'>
-        <text class='content-text'>折线</text>
+         <text class='content-text'>折线</text>
       </view>
     </view>
     <view class=' imageList ' bindtap='record'>
@@ -18,15 +18,15 @@
         <image src=' ../../image/edit.svg ' class='imageSize' />
       </view>
       <view class='center-line'>
-        <text class='content-text'>记录</text>
+         <text class='content-text'>记录</text>
       </view>
     </view>
     <view class=' imageList ' bindtap='recentStep'>
       <view class='imageData'>
-        <image src=' ../../image/nearby.svg ' class='imageSize' />
+        <image src=' ../../image/history.svg ' class='imageSize' />
       </view>
       <view class='center-line'>
-        <text class='content-text'>30天</text>
+         <text class='content-text'>30天</text>
       </view>
     </view>
   </view>
@@ -57,7 +57,7 @@
               <text class='info-text-list'>推荐消耗能量</text>
             </view>
             <view bindtap='stepRefresh'>
-              <text>{{calories}} <text style='font-size:10px;'>千卡</text></text>
+              <text>{{calories}} <text style='font-size:10px;'>卡</text></text>
             </view>
           </view>
         </view>
@@ -80,7 +80,7 @@
                     <text class='foodCaloriesList'>{{item.weight}}g</text>
                     <text style='font-size:10px;'>大约</text>
                     <text class='foodCaloriesList'>{{item.weight*item.calories/100}}</text>
-                    <text style='font-size:10px;'>千卡</text>
+                    <text style='font-size:10px;'>卡</text>
                   </view>
                 </view>
               </view>
@@ -90,15 +90,15 @@
       </view>
     </view>
     <view wx:if="{{recordList}}">
-      <text bindtap='jumpRecord' style='margin-left:50px;-webkit-text-fill-color: #dae1fe;'>今天有什么美食快点我分享给我吧~</text>
+      <text bindtap='jumpRecord' style='font-size:13px;margin-left:50px;-webkit-text-fill-color: #dae1fe;'>今天有什么美食?点我分享给我吧~</text>
     </view>
 
 
     <view class="weui-cells__title">美食日推</view>
-    <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cells weui-cells_after-title foodNameList1">
       <view wx:if="{{!pushData}}">
         <text class='foodNameList'>{{pushFoodName}}</text>
-        <text class='foodNameList'>{{pushFoodCalories}}</text><text style='font-size:10px;'>千卡/100g</text>
+        <text class='foodNameList'>{{pushFoodCalories}}</text><text style='font-size:10px;'>卡/100g</text>
 
       </view>
 

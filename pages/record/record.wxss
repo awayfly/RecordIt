@@ -21,8 +21,8 @@
 
 .backginfo-text {
   position: fixed;
-  margin-top: 100px;
-  margin-left: 30%;
+  margin-top: 80px;
+  margin-left: 16%;
 }
 
 .food-name food-calorie {
@@ -44,4 +44,8 @@
 
 .food-list .weui-cells {
   padding: 10px 15px;
+}
+
+.page-section{
+  padding-bottom: 90px;
 }

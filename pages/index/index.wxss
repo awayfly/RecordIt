@@ -101,7 +101,7 @@
 
 .start {
   position: fixed;
-  bottom: 0px;
+  bottom: 20px;
   width: 150px;
   height: 40px;
   border: 0em #2d3e50;
@@ -111,7 +111,7 @@
 
 .reset {
   position: fixed;
-  bottom: 0px;
+  bottom: 20px;
   width: 100px;
   height: 40px;
   font-size: 14px;

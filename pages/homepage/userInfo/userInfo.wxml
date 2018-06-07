@@ -4,18 +4,19 @@
   </view>
   <form bindsubmit='bindDateChange'>
     <view class="page__bd">
-      <view class="weui-cells__title">步数目标</view>
+      <view class="weui-cells__title">步数目标(天)</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
             <view class="weui-label">步数</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" bindinput='disabled' maxlength="5"  name="aimsStep"  placeholder="请输入目标" value = "{{aimsStep}}"/>
+            <input class="weui-input" type="number" bindinput='disabled' maxlength="5"  name="aimsStep"  placeholder="请输入目标" value = "{{aimsStep}}"/>
           </view>
         </view>
       </view>
-      <button type="primary" class='buttonLogin weui-btn' form-type='submit' disabled="{{!disabled}}">提交修改</button>
+      <button type="primary" class='buttonLogin weui-btn' form-type='submit' disabled="{{!disabled}}">保存</button>
     </view>
   </form>
+  <view class="weui-cells__title">有了目标就要努力完成哟，加油~~</view>
 </view>

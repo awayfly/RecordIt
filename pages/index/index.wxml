@@ -52,7 +52,7 @@
         <view class='text-data'>
           <text class='produce-Text'>卡路里</text>
         </view>
-        <view class='CaloriesNum' bindtap='Calories' style='-webkit-text-fill-color:#62daaa'>{{Calories}}千卡</view>
+        <view class='CaloriesNum' bindtap='Calories' style='-webkit-text-fill-color:#62daaa'>{{Calories}}卡</view>
       </view>
 
     </view>

@@ -54,7 +54,7 @@ image {
   display: flex;
   flex-direction: column;
    margin-left: 15px; 
-  width: 100%;
+  width: 90%;
 }
 
 .sport-data-list{
@@ -113,4 +113,8 @@ image {
   margin-left: 10px;
   font-size: 15px;
   margin-bottom: 0px;
+}
+
+.foodNameList1{
+  padding-bottom: 90px;
 }

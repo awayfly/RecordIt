@@ -117,6 +117,12 @@ Page({
       method: "POST",
       success: function (res) {
         console.log(res.data);
+        if(res.data.flag === true){
+          wx.showToast({
+            title: '保存成功',
+            icon:'success'
+          })
+        }
       }
     })
   },

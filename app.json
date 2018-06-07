@@ -12,7 +12,7 @@
   ],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "演示",
+    "navigationBarTitleText": "Record it!",
     "navigationBarBackgroundColor": "#d0d9ff",
     "backgroundColor": "#d0d9ff",
     "enablePullDownRefresh": true

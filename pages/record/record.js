@@ -94,43 +94,16 @@ Page({
     var height = 0;
     var weight = 0
 
-    /**获取用户体貌信息*/
-    wx.request({
-      url: 'https://xprogram.hczzz.club/sport/user',
-      data: {
-        thirdSession: wx.getStorageSync("thirdSession")
-      },
-      header: {
-        'content-type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'
-      },
-      method: "GET",
-      success: function (res) {
+    that.getUserInfomation();
+    weight = wx.getStorageSync("weight")
+    height = wx.getStorageSync("height")
 
-        weight = res.data.info.weight == null ? 0 : res.data.info.weight;
-        height = res.data.info.height == null ? 0.0 : res.data.info.height;
-        if (height === 0 || weight === 0) {
-          wx.showModal({
-            title: '请录入个人信息',
-            content: '',
-            success: function (res) {
-              if (res.confirm) {
-                wx.navigateTo({
-                  url: '../info/info',
-                })
-              }
-            }
-          })
-          return;
-        }
-        wx.setStorage({
-          key: 'weight',
-          data: that.weight,
-        })
-      }
-
-    })
-
+  
+    console.log("身高和体重"+height+"   "+weight)
+    if (height === 0 || weight === 0 ) {
+      return;
+    }
+    console.log("身高和体重" + height + "   " + weight)
     wx.showToast({
       title: '提交中...',
       icon:'loading',
@@ -434,6 +407,56 @@ Page({
       data: newHeadShow,
     })
 
+  },
+
+  getUserInfomation:function(){
+    var height = 0;
+    var weight = 0;
+    var that = this;
+
+    /**获取用户体貌信息*/
+    wx.request({
+      url: 'https://xprogram.hczzz.club/sport/user',
+      data: {
+        thirdSession: wx.getStorageSync("thirdSession")
+      },
+      header: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'
+      },
+      method: "GET",
+      success: function (res) {
+        console.log("用户信息weight")
+        console.log(res)
+
+        weight = res.data.info.weight;
+        height = res.data.info.height;
+        if (height === 0 || height === null || weight === 0 || weight === null) {
+          wx.showModal({
+            title: '请录入个人信息',
+            content: '',
+            success: function (res) {
+              if (res.confirm) {
+                wx.navigateTo({
+                  url: '../info/info',
+                })
+              }
+            }
+          })
+          return;
+        }
+        wx.setStorage({
+          key: 'weight',
+          data: res.data.info.weight,
+        })
+
+        wx.setStorage({
+          key: 'height',
+          data: res.data.info.height,
+        })
+      }
+
+    })
   },
 
   /**

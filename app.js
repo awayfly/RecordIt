@@ -30,8 +30,8 @@ App({
             method: "POST",
             success: function (res) {
               console.log(res)
-              console.log("sportSession值app   :  ")
-              console.log(res.data.sportSession)
+              console.log("thirdSessionId值app   :  ")
+              console.log(res.data.thirdSessionId)
 
               wx.setStorage({
                 key: 'sportSession',
@@ -64,20 +64,6 @@ App({
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
       }
     })
-
-
-
-
-
-    // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-
-        }
-      }
-    })
-
 
     wx.getWeRunData({
       success: res => {

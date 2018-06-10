@@ -97,6 +97,7 @@
     <view class="weui-cells__title">美食日推</view>
     <view class="weui-cells weui-cells_after-title foodNameList1">
       <view wx:if="{{!pushData}}">
+      <image src='{{pushFoodImage}}' class='foodImageList'> </image>
         <text class='foodNameList'>{{pushFoodName}}</text>
         <text class='foodNameList'>{{pushFoodCalories}}</text><text style='font-size:10px;'>卡/100g</text>
 

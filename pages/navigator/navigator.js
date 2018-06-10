@@ -19,7 +19,8 @@ Page({
     recordList:false,
     pushFoodName:"",
     pushFoodCalories:"",
-    pushData:false
+    pushFoodImage:"",
+    pushData:true
   },
   navbarTap: function (e) {
     this.setData({
@@ -47,8 +48,6 @@ Page({
       aimsStep: aimsStep,
     })
 
-    console.log("缓存中的用户今日食物信息")
-    console.log(wx.getStorageSync("headShow"))
     
     wx.getLocation({
       type: 'wgs84',
@@ -62,7 +61,6 @@ Page({
           key: 'longitude',
           data: res.longitude,
         })
-        console.log(res.latitude + "   LLLL   " + res.longitude)
       },
     })
 
@@ -116,7 +114,6 @@ Page({
 
     var title = "步数完成量";
 
-    console.log(aimsStep + "运动目标")
 
     if (aimsStep === 0) {
       aimsStep = 1;
@@ -128,7 +125,6 @@ Page({
     }
 
 
-    console.log(stepToday + "今日步数" + aimsStep + "今日目标")
     var amount = stepToday / aimsStep * 100;
     var remaining = aimsStep - stepToday;
     // remaining = remaining === null || remaining === undefined ?1:remaining;
@@ -185,7 +181,6 @@ Page({
       padding: 0
     });
     ringChart.addEventListener('renderComplete', () => {
-      // console.log('renderComplete');
     });
     setTimeout(() => {
       ringChart.stopAnimation();
@@ -319,11 +314,13 @@ headShowInfo:function(){
     })
 
     return;
+  }else{
+    that.setData({
+      recordList: false
+    })
   }
 
-  console.log("主页加载的信息")
-  console.log(wx.getStorageSync("headShow"))
-  console.log(headShow)
+ 
 
   var timestampFood;
   var timestampNow = timeTrans.AutoYMDteanstats();
@@ -342,6 +339,7 @@ headShowInfo:function(){
   that.setData({
     foodList: newHeadShow,
   })
+  console.log("首页现实的记录信息")
   console.log(that.data.foodList)
 
 },
@@ -358,7 +356,39 @@ headShowInfo:function(){
    var that = this
     var latitude = wx.getStorageSync("latitude");
     var longitude = wx.getStorageSync("longitude");
-    
+
+    wx.request({
+      url: 'https://xprogram.hczzz.club/sport/user', //仅为示例，并非真实的接口地址
+      data: {
+        thirdSession: wx.getStorageSync("thirdSession")
+      },
+      header: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'
+      },
+      method: "GET",
+      success: function (res) {
+        console.log(res.data);
+        if(res.data.flag === false){
+          return;
+        }
+      
+        wx.setStorage({
+          key: 'weight',
+          data: res.data.info.weight,
+        })
+
+        wx.setStorage({
+          key: 'height',
+          data: res.data.info.height,
+        })
+      }
+
+    })
+    //判断如果身高体重信息未录入，就不会进行推荐
+    if (wx.getStorageSync("weight") === "" || wx.getStorageSync("weight") === 0 || wx.getStorageSync("height") === "" || wx.getStorageSync("height") === 0) {
+      return;
+    }else{
 
     wx.request({
       url: 'https://xprogram.hczzz.club/sport/user/getReference',
@@ -373,25 +403,31 @@ headShowInfo:function(){
       },
       method: "POST",
       success:function(res){
+        
         console.log("获取推荐信息")
         console.log(res)
         var refer = res.data.refer;
-        if(refer === null){
+        if(!(refer === null)){
           that.setData({
-            pushData:true,
+            pushData:false,
           })
-          return;
+        }
+
+        if (refer === null) {
+         return;
         }
         console.log(refer)
         var con = JSON.parse(refer)
         console.log(con.dishs[0].dishName)
         that.setData({
           pushFoodName: con.dishs[0].dishName,
-          pushFoodCalories: con.dishs[0].calories
+          pushFoodCalories: con.dishs[0].calories,
+          pushFoodImage:"https://xprogram.hczzz.club/sport/file/?imgId="+ con.dishs[0].imageid
         })
 
       }
     })
+    }
   },
 
 
@@ -433,7 +469,7 @@ headShowInfo:function(){
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    
   },
 
   /**
@@ -454,6 +490,8 @@ headShowInfo:function(){
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+    this.onLoad();
+    this.onReady();
     wx.stopPullDownRefresh();
   },
 

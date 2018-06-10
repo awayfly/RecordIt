@@ -45,7 +45,7 @@ Page({
         )
         wx.setStorage({
           key: 'weight',
-          data: that.weight,
+          data: that.data.weight,
         })
       }
       

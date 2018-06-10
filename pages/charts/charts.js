@@ -62,13 +62,11 @@ Page({
    * 
   */
   bindDateChange1: function (e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       dataYMDStar: e.detail.value,
     })
   },
   bindDateChange2: function (e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       dataYMDEnd: e.detail.value
     })
@@ -83,12 +81,15 @@ Page({
     var endData;
 
     var allDate;
-
-
     if (num == 1) {
       allDate = timeTrans.AutoYMDteanstats();
       starData = allDate[0];
       endData = allDate[1];
+
+      
+      that.setData({
+        dataYMDStar: timeTrans.timetransYMD(starData*1000),
+      })
     } else if (num == 2) {
       allDate = timeTrans.YMDteanstats(that.data.dataYMDStar + " 00:00:00");
       starData = allDate[0];
@@ -97,7 +98,6 @@ Page({
       console.log("请求类型错误")
       return;
     }
-    console.log("allDate:+++++" + allDate)
 
     wx.request({/*请求获取图表信息 运动量 摄入量 时间戳*/
       url: 'https://xprogram.hczzz.club/sport/info',
@@ -138,8 +138,6 @@ Page({
         }
 
         var dataList = res.data.data;
-        console.log("dataList>>>>>>>>>>>>>>>")
-        console.log(dataList)
 
 
         var timeIn;

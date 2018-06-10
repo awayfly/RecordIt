@@ -13,7 +13,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "1.9.98",
 	"appid": "wx2e8ecc979a8870fe",
-	"projectname": "Sport-demo",
+	"projectname": "RecordIt",
 	"isGameTourist": false,
 	"condition": {
 		"search": {
